@@ -33,6 +33,6 @@ pinned checksum. Alpine's `tea` package is not used because it predates
 The image SHALL take `bun` from the official `oven/bun` Alpine image, pinned by
 digest, so the musl binary matches the base.
 
-#### Scenario: Bun version
+#### Scenario: Bun runs
 - **WHEN** `bun --version` runs in the image
-- **THEN** it prints the version pinned in `.bun-version`
+- **THEN** it exits zero

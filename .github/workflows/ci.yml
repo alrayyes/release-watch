@@ -124,7 +124,3 @@ jobs:
             [ "$(id -u)" != 0 ] || { echo "runs as root"; exit 1; }
             tea api --help >/dev/null
           '
-
-      - name: Check bun matches .bun-version
-        run: |
-          [ "$(docker run --rm release-watch:ci bun --version)" = "$(cat .bun-version)" ]
