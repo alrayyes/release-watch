@@ -26,7 +26,6 @@ Run what the pipeline runs:
 bun run lint                # biome: JSON, and anything else it supports
 bun run lint:pkg            # sort-package-json: canonical key order
 bun run check:biome-schema  # biome.json's $schema vs. the pinned @biomejs/biome
-bun run audit               # bun audit: known vulnerabilities in pinned deps, all of them
 bun run format:check        # prettier: Markdown and YAML layout
 bun run lint:md             # markdownlint: structure, links, heading levels
 bun run lint:mechanics      # ltex: grammar and spelling
@@ -35,6 +34,10 @@ bun run lint:prose          # vale: house style
 docker run --rm -i -v "$PWD/.hadolint.yaml:/.hadolint.yaml:ro" hadolint/hadolint:v2.15.1-alpine@sha256:a1d49ae1a4e83c1dbad26b8c1ad7588c8bd1e04f4866b34ad3cac50335198552 hadolint --config /.hadolint.yaml - < Dockerfile
 docker build .
 ```
+
+To run it by hand: `bun run audit` lists every known vulnerability in the pinned
+dependencies, including ones the `Dependency advisories` ticket already tracks. It isn't a
+hook or a CI step, because CI's gate fails only on what a pull request adds.
 
 Prose is linted in tiers because they answer to different things. Layout is
 Prettier's, structure is markdownlint's, mechanics have a right answer, and
