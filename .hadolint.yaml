@@ -1,0 +1,16 @@
+# DL3018 wants a version on every apk package. This image can't give it one: an
+# apk version belongs to the Alpine branch the base image is built on, not to
+# the Dockerfile, and a base image bump that crosses a branch boundary turns a
+# pin into a build failure. Alpine keeps one build of each package per branch
+# and prunes the rest, so nothing can bump the pin in step.
+#
+# The cost of disabling it here rather than inline is that a future `apk add`
+# gets the same pass without arguing for it. That has now happened once: the
+# image went from one package to seven when it took over a real job's
+# per-run install. The reasoning above held — it is a property of Alpine, not of how
+# many packages are on the line — but it is the kind of thing that gets
+# stretched quietly. Read it again before reaching for a next, and if the
+# argument no longer fits, move the ignore inline on the line that needs it
+# rather than widening this one.
+ignored:
+  - DL3018
