@@ -1,6 +1,6 @@
 {
 	"name": "release-watch",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"private": true,
 	"description": "Alpine image carrying the tools a scheduled release-watch job needs",
 	"bugs": {

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/alrayyes/release-watch/compare/1.0.0...1.0.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* **deps:** bump oven/bun from 1.3.14-alpine to 1.4.3-alpine ([#3](https://github.com/alrayyes/release-watch/issues/3)) ([07fa756](https://github.com/alrayyes/release-watch/commit/07fa756ce9b1a66365a338eb6423f2bdf4b0faaa))
+
 ## 1.0.0 (2026-10-15)
 
 
