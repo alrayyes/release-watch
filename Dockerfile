@@ -9,6 +9,8 @@ FROM alpine:3.24.2@sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4c
 #   git, ca-certificates    clone, branch and push over HTTPS with the system CA store
 #   nodejs                  actions/checkout is a node program whichever way it fetches;
 #                           without it the step never starts, exit 127
+#   curl                    reads the public GitHub API with no login, and is what the
+#                           hush-hush action downloads its CLI with
 #   github-cli              `gh api` reads the latest release of the watched repo
 #   skopeo                  `skopeo inspect` reads an image digest from ghcr.io. A runner
 #                           job has no docker daemon, so `docker buildx imagetools` is out
@@ -20,6 +22,7 @@ FROM alpine:3.24.2@sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4c
 RUN apk --no-cache add \
         bash \
         ca-certificates \
+        curl \
         git \
         github-cli \
         jq \
