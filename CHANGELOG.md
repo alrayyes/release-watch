@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/alrayyes/release-watch/compare/1.1.0...1.1.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* **ci:** run release-auto-merge when the autorelease label is added ([#13](https://github.com/alrayyes/release-watch/issues/13)) ([d7f7a30](https://github.com/alrayyes/release-watch/commit/d7f7a303f53257dbb9f4f062e7622fdc83ff2940)), closes [#12](https://github.com/alrayyes/release-watch/issues/12)
+
 ## [1.1.0](https://github.com/alrayyes/release-watch/compare/1.0.1...1.1.0) (2026-10-15)
 
 
