@@ -118,7 +118,7 @@ jobs:
         run: |
           docker run --rm release-watch:ci sh -c '
             set -eu
-            for c in bash git node jq gh skopeo tea bun; do
+            for c in bash curl git node jq gh skopeo tea bun; do
               command -v "$c" >/dev/null || { echo "missing: $c"; exit 1; }
             done
             [ "$(id -u)" != 0 ] || { echo "runs as root"; exit 1; }

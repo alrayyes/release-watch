@@ -29,6 +29,7 @@ registry credentials. The image is `linux/amd64` only.
 | `bash`, `jq`             | the watcher script is bash and parses forge JSON with `jq`                                                             |
 | `git`, `ca-certificates` | clone, branch and push over HTTPS with the system CA store                                                             |
 | `nodejs`                 | `actions/checkout` **is** a node program. Without it the step never starts: exec `node` not found, exit 127            |
+| `curl`                   | reads the public GitHub API with no login                                                                              |
 | `gh`                     | reads a repository's latest release                                                                                    |
 | `skopeo`                 | reads an image digest from a registry. A runner job has no docker daemon, so `docker buildx` is not an option          |
 | `tea`                    | the Forgejo command-line client: opens, lists, comments on and merges pull requests. The upstream binary, not Alpine's |

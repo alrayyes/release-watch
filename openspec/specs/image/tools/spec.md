@@ -8,8 +8,8 @@ somewhere else.
 ## Requirements
 
 ### Requirement: Image carries the release-watch toolbox
-The published image SHALL provide `bash`, `git`, `node`, `jq`, `gh`, `skopeo`,
-`tea` and `bun` on `PATH`.
+The published image SHALL provide `bash`, `curl`, `git`, `node`, `jq`, `gh`,
+`skopeo`, `tea` and `bun` on `PATH`.
 
 #### Scenario: Every tool resolves
 - **WHEN** the built image runs `command -v` for each tool
