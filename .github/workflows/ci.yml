@@ -62,7 +62,7 @@ jobs:
           # Taken into a variable first: a failing git diff (missing base) stops the
           # step under bash -e and turns the job red, instead of skipping the gate.
           files="$(git diff --name-only "${BASE}...HEAD")"
-          if grep -Eq '^(package\.json|bun\.lock)$' <<<"${files}"; then
+          if grep -Eq '^(package\.json|bun\.lock|\.github/workflows/ci\.yml)$' <<<"${files}"; then
             echo "deps=true" >> "$GITHUB_OUTPUT"
           fi
       - if: steps.changed.outputs.deps == 'true'
