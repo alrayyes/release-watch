@@ -55,7 +55,14 @@ jobs:
           EVENT: ${{ github.event_name }}
           BASE: ${{ github.event.pull_request.base.sha }}
         run: |
-          if [ "${EVENT}" != pull_request ] || git diff --name-only "${BASE}...HEAD" | grep -Eq '^(package\.json|bun\.lock)$'; then
+          if [ "${EVENT}" != pull_request ]; then
+            echo "deps=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # Taken into a variable first: a failing git diff (missing base) stops the
+          # step under bash -e and turns the job red, instead of skipping the gate.
+          files="$(git diff --name-only "${BASE}...HEAD")"
+          if grep -Eq '^(package\.json|bun\.lock)$' <<<"${files}"; then
             echo "deps=true" >> "$GITHUB_OUTPUT"
           fi
       - if: steps.changed.outputs.deps == 'true'
