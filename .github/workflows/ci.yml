@@ -1,0 +1,130 @@
+# What a pull request has to survive. Nothing here publishes; that is release.yml's
+# job, and keeping the two apart is why a branch can never put a tag in the registry.
+#
+# The Forgejo pipeline this replaces had to `apk add nodejs` before every checkout,
+# because it ran each job inside a bare tool image. GitHub's runners already carry
+# node, git and docker, so a job here is the tool and nothing else.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# A second push to the same branch makes the first run's answer worthless.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: .bun-version
+      # --frozen-lockfile so a drifted bun.lock fails the job rather than quietly
+      # resolving something else. Deliberately uncached: a cold install is seconds,
+      # and taring the cache to save them costs more than it saves.
+      - run: bun install --frozen-lockfile
+      - run: bun run lint
+      - run: bun run lint:pkg
+      - run: bun run check:biome-schema
+
+  # Pinning stops a version drifting under you; it says nothing about the
+  # pinned version having a since-published CVE. Separate from lint so a red
+  # job name says which one failed.
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: .bun-version
+      - run: bun install --frozen-lockfile
+      - run: bun run audit
+
+  # Layout and structure. The two tiers that have a right answer and are cheap
+  # enough to run on every push; grammar and style are heavier and live in
+  # prose.yml.
+  #
+  # Prettier runs before markdownlint, never after. Prettier decides the layout
+  # and markdownlint judges what Prettier produced; the other order has
+  # markdownlint fixing something Prettier is about to overwrite.
+  markdown:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: .bun-version
+      - run: bun install --frozen-lockfile
+      - run: bun run format:check
+      - run: bun run lint:md
+
+  commits:
+    # release-please reads Conventional Commits to decide the next version and write
+    # the changelog. A commit that does not parse does not get a worse release note -
+    # it gets none, and the version does not move. So this is part of releasing
+    # rather than a style preference.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Both endpoints have to be in the clone for commitlint to walk between
+          # them, and the default shallow fetch has neither.
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: .bun-version
+      # A real install, not bare bunx: commitlint resolves
+      # @commitlint/config-conventional as a sibling package.
+      - run: bun install --frozen-lockfile
+      - run: bunx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+
+  dockerfile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: hadolint/hadolint-action@06be81baf89a55ffd0e24b8f04a4185738dd3387 # v3.5.0
+        with:
+          dockerfile: Dockerfile
+          config: .hadolint.yaml
+
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # --pull so a base image already on the runner cannot make a broken FROM line
+      # look fine. Build only - the tag dies with the runner.
+      - run: docker build --pull -t release-watch:ci .
+
+      # The image exists to carry these. If Alpine renames a package or drops one
+      # from the branch, `apk add` still succeeds for the rest and the build stays
+      # green - the failure surfaces in someone else's pipeline instead. So assert it
+      # here, where it is this repo's problem.
+      - name: Check the image carries what a release-watch job needs
+        run: |
+          docker run --rm release-watch:ci sh -c '
+            set -eu
+            for c in bash git node jq gh skopeo tea bun; do
+              command -v "$c" >/dev/null || { echo "missing: $c"; exit 1; }
+            done
+            [ "$(id -u)" != 0 ] || { echo "runs as root"; exit 1; }
+            tea api --help >/dev/null
+          '
+
+      - name: Check bun matches .bun-version
+        run: |
+          [ "$(docker run --rm release-watch:ci bun --version)" = "$(cat .bun-version)" ]

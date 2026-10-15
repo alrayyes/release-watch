@@ -1,0 +1,63 @@
+# Product and tool names, spelled the way their owners spell them. Vale.Terms
+# holds the prose to exactly these, so the casing here is the casing everywhere.
+#
+# Entries are matched as substrings by Vale.Terms, so keep a name here only if
+# it is spelled the same everywhere.
+Alpine
+skopeo
+Forgejo
+Dockerfile
+Forgejo
+GitHub
+GitLab
+GHCR
+ghcr\.io
+Prettier
+Contributor Covenant
+apk
+bun
+bunx
+busybox
+commitlint
+hadolint
+lefthook
+markdownlint
+OpenSpec
+[Ss]corecard
+
+# Ordinary words the spell checker does not carry. Each one is here because it
+# appears in this repository's prose, not on principle.
+[Dd]ev
+[Ee]ntrypoint
+allowlist
+changelog
+CI
+config
+CVE
+CVEs
+digest
+else's
+gitignored
+JSON
+linted
+misconfiguration
+repo
+restages
+runbook
+semver
+stderr
+stdout
+subcommand
+tailnet
+toolchain
+unexported
+unextended
+unpinned
+UTF-8
+YAML
+
+Dependabot
+skopeo
+jq
+musl
+tea
