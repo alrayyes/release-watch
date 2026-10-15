@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/alrayyes/release-watch/compare/1.0.1...1.1.0) (2026-10-15)
+
+
+### Features
+
+* add curl to the image ([#9](https://github.com/alrayyes/release-watch/issues/9)) ([149f9c5](https://github.com/alrayyes/release-watch/commit/149f9c5723bcbc792930981dbf98007ce60436dc))
+
 ## [1.0.1](https://github.com/alrayyes/release-watch/compare/1.0.0...1.0.1) (2026-10-15)
 
 
