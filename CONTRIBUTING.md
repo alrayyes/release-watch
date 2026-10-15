@@ -26,7 +26,7 @@ Run what the pipeline runs:
 bun run lint                # biome: JSON, and anything else it supports
 bun run lint:pkg            # sort-package-json: canonical key order
 bun run check:biome-schema  # biome.json's $schema vs. the pinned @biomejs/biome
-bun run audit               # bun audit: known vulnerabilities in pinned deps (GHSA-vfj7-8cjw-p6xm ignored: braces has no fix yet, dev-only)
+bun run audit               # bun audit: known vulnerabilities in pinned deps, all of them
 bun run format:check        # prettier: Markdown and YAML layout
 bun run lint:md             # markdownlint: structure, links, heading levels
 bun run lint:mechanics      # ltex: grammar and spelling
