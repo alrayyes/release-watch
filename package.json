@@ -10,7 +10,7 @@
 	"license": "GPL-3.0-or-later",
 	"author": "Ryan Kes <511318+alrayyes@users.noreply.github.com>",
 	"scripts": {
-		"audit": "bun audit --ignore=GHSA-vfj7-8cjw-p6xm",
+		"audit": "bun audit",
 		"check:biome-schema": "./scripts/check-biome-schema.sh",
 		"format": "prettier --write",
 		"format:check": "prettier --check \"**/*.{md,yml,yaml}\"",
