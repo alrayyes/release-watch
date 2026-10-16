@@ -35,9 +35,10 @@ docker run --rm -i -v "$PWD/.hadolint.yaml:/.hadolint.yaml:ro" hadolint/hadolint
 docker build .
 ```
 
-To run it by hand: `bun run audit` lists every known vulnerability in the pinned
-dependencies, including ones the `Dependency advisories` ticket already tracks. It isn't a
-hook or a CI step, because CI's gate fails only on what a pull request adds.
+To run it by hand: `bun run audit` lists every known vulnerability in the
+pinned dependencies, including ones the `Dependency advisories` ticket already
+tracks. It isn't a hook or a CI step, because CI's gate fails only on what a
+pull request adds.
 
 Prose is linted in tiers because they answer to different things. Layout is
 Prettier's, structure is markdownlint's, mechanics have a right answer, and
