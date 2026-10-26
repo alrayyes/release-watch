@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.4](https://github.com/alrayyes/release-watch/compare/1.1.3...1.1.4) (2026-10-26)
+
+
+### Bug Fixes
+
+* **lint:** leave Markdown formatting to prettier ([#28](https://github.com/alrayyes/release-watch/issues/28)) ([f511ced](https://github.com/alrayyes/release-watch/commit/f511cedcf61785383e362af1a1a5333d4f8b15ce)), closes [#27](https://github.com/alrayyes/release-watch/issues/27)
+
 ## [1.1.3](https://github.com/alrayyes/release-watch/compare/1.1.2...1.1.3) (2026-10-26)
 
 
