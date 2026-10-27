@@ -5,6 +5,9 @@
 - **bun** `1.3.14`, pinned in `.bun-version`. It installs the dev dependencies
   and runs the hooks; there is no node in this repo any more.
 - **Docker**, to build the image and to run hadolint.
+- **[gitleaks](https://github.com/gitleaks/gitleaks)**, on your `PATH`. It scans
+  the staged changes on every commit and the whole history on every push, and CI
+  scans the whole history again on every pull request.
 
 That is the whole toolchain. Everything else arrives through `bun install`.
 
@@ -55,12 +58,14 @@ if there is one copy of each:
 - **pre-commit** judges only what the commit contains: every job is handed the
   staged files, so a half-finished file elsewhere can't fail or be rewritten by
   a commit. It formats them with biome and Prettier and restages what they
-  touched, then runs markdownlint, and hadolint on a staged `Dockerfile` (read
-  from the index). It may write, and it never builds the image.
+  touched, then runs gitleaks over the index, markdownlint, and hadolint on a
+  staged `Dockerfile` (read from the index). It may write, and it never builds
+  the image.
 - **commit-msg** runs commitlint.
 - **pre-push** runs everything in check mode over the whole tree, including the
-  two prose tiers. It never writes: a hook rewriting files under a push leaves
-  the pushed commit and your working tree disagreeing about what was reviewed.
+  two prose tiers and a gitleaks scan of the whole history. It never writes: a
+  hook rewriting files under a push leaves the pushed commit and your working
+  tree disagreeing about what was reviewed.
 
 The first `bun run lint:mechanics` downloads ltex-ls-plus, which is about
 300 MB because it ships its own JVM. It caches outside the repository under

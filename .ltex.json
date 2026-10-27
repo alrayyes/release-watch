@@ -19,6 +19,7 @@
 			"ghcr",
 			"ghcr.io",
 			"gitignored",
+			"gitleaks",
 			"hadolint",
 			"jq",
 			"lefthook",
