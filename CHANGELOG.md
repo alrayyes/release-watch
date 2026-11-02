@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.5](https://github.com/alrayyes/release-watch/compare/1.1.4...1.1.5) (2026-11-02)
+
+
+### Bug Fixes
+
+* **lint:** point biome.json schema at the installed Biome ([#36](https://github.com/alrayyes/release-watch/issues/36)) ([ad7653d](https://github.com/alrayyes/release-watch/commit/ad7653d80b8ac6ff3386be8dd3731ff0cd2d42d9))
+
 ## [1.1.4](https://github.com/alrayyes/release-watch/compare/1.1.3...1.1.4) (2026-10-26)
 
 
