@@ -30,7 +30,7 @@ bun run lint                # biome: JSON, and anything else it supports
 bun run lint:pkg            # sort-package-json: canonical key order
 bun run format:check        # prettier: Markdown and YAML layout
 bun run lint:md             # markdownlint: structure, links, heading levels
-bun run lint:mechanics      # ltex: grammar and spelling
+bun run lint:mechanics      # ltex: grammar and spelling, every document
 bun run lint:prose          # vale: house style
 
 docker run --rm -i -v "$PWD/.hadolint.yaml:/.hadolint.yaml:ro" hadolint/hadolint:v2.15.1-alpine@sha256:a1d49ae1a4e83c1dbad26b8c1ad7588c8bd1e04f4866b34ad3cac50335198552 hadolint --config /.hadolint.yaml - < Dockerfile
@@ -62,9 +62,12 @@ if there is one copy of each:
   the image.
 - **commit-msg** runs commitlint.
 - **pre-push** runs everything in check mode over the whole tree, including the
-  two prose tiers and a gitleaks scan of the whole history. It never writes: a
-  hook rewriting files under a push leaves the pushed commit and your working
-  tree disagreeing about what was reviewed.
+  two prose tiers and a gitleaks scan of the whole history, except grammar and
+  spelling: that checks only the Markdown in your push, and all of it when
+  `.ltex.json` or `scripts/lint-mechanics.sh` changed, so a push with no prose
+  never starts the JVM. It never writes: a hook rewriting files under a push
+  leaves the pushed commit and your working tree disagreeing about what was
+  reviewed.
 
 The first `bun run lint:mechanics` downloads ltex-ls-plus, which is about
 300 MB because it ships its own JVM. It caches outside the repository under
