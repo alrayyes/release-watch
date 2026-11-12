@@ -19,6 +19,7 @@ on:
       - .ltex.json
       - styles/**
       - scripts/lint-*.sh
+      - scripts/test-lint-*.sh
       - .github/workflows/prose.yml
   pull_request:
     paths:
@@ -27,6 +28,7 @@ on:
       - .ltex.json
       - styles/**
       - scripts/lint-*.sh
+      - scripts/test-lint-*.sh
       - .github/workflows/prose.yml
   workflow_dispatch:
 
@@ -52,6 +54,9 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Check the mechanics hook
+        run: ./scripts/test-lint-mechanics.sh && shellcheck scripts/test-lint-mechanics.sh
 
       - name: Check the prose this repository owns
         # The same script the pre-push hook runs, so the two cannot disagree
