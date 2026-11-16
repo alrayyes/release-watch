@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.6](https://github.com/alrayyes/release-watch/compare/1.1.5...1.1.6) (2026-11-16)
+
+
+### Bug Fixes
+
+* **deps:** bump alpine from 3.24.3 to 3.24.4 ([#43](https://github.com/alrayyes/release-watch/issues/43)) ([b8469bd](https://github.com/alrayyes/release-watch/commit/b8469bd42345182162ed43610f43ae3a11f16572))
+
 ## [1.1.5](https://github.com/alrayyes/release-watch/compare/1.1.4...1.1.5) (2026-11-02)
 
 
